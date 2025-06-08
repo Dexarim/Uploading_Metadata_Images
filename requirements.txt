@@ -1,0 +1,4 @@
+piexif
+Pillow
+dateparser
+tqdm
