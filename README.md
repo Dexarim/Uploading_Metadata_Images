@@ -29,12 +29,13 @@ Install dependencies
   pip install -r requirements.txt
 ```
 
-Start the server
+Rrunning a script with a single folder
 
 ```bash
   python main.py "path/folder"
 
 ```
+Running a script with multiple folders and logs
 
 ```bash
   python main.py "path/folder1" "path/folder1" mylog.txt
