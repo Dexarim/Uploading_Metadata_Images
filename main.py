@@ -17,7 +17,7 @@ except locale.Error:
 
 # Обработка аргументов
 if len(sys.argv) < 2:
-    print("❌ Укажите хотя бы одну папку для обработки.")
+    print("Укажите хотя бы одну папку для обработки.")
     print("Пример: python main.py \"Photos from 2021\" \"Photos from 2022\" [log_filename]")
     sys.exit(1)
 
@@ -82,7 +82,7 @@ def restore_video_metadata(video_path, out_path, metadata):
             dt = convert_google_to_exif_time(taken_time)
             creation_time = datetime.strptime(dt, "%Y:%m:%d %H:%M:%S").isoformat()
         except Exception as e:
-            log(f"⚠️ Не удалось распарсить дату видео: {e}")
+            log(f"Не удалось распарсить дату видео: {e}")
     latitude = location.get("latitude", 0)
     longitude = location.get("longitude", 0)
 
@@ -97,9 +97,9 @@ def restore_video_metadata(video_path, out_path, metadata):
 
     try:
         subprocess.run(cmd, check=True)
-        log(f"✅ Видео обновлено: {video_path} → {out_path}")
+        log(f"Видео обновлено: {video_path} → {out_path}")
     except subprocess.CalledProcessError as e:
-        log(f"❌ Ошибка обновления видео {video_path}: {e}")
+        log(f"Ошибка обновления видео {video_path}: {e}")
 
 for FOLDER in FOLDERS:
     out_folder = os.path.join(FOLDER, "restored")
@@ -112,7 +112,7 @@ for FOLDER in FOLDERS:
             media_path = os.path.join(FOLDER, base_filename)
 
             if not os.path.exists(media_path):
-                log(f"❌ Пропущено, файл не найден: {base_filename}")
+                log(f"Пропущено, файл не найден: {base_filename}")
                 continue
 
             with open(json_path, "r", encoding="utf-8") as f:
@@ -130,7 +130,7 @@ for FOLDER in FOLDERS:
                         exif_dict["Exif"][piexif.ExifIFD.DateTimeOriginal] = exif_time
                         exif_dict["Exif"][piexif.ExifIFD.DateTimeDigitized] = exif_time
                     except (KeyError, ValueError) as e:
-                        log(f"⚠️ Не удалось прочитать дату для {base_filename}: {e}")
+                        log(f"Не удалось прочитать дату для {base_filename}: {e}")
 
                     if "cameraMake" in metadata:
                         exif_dict["0th"][piexif.ImageIFD.Make] = metadata["cameraMake"]
@@ -151,10 +151,10 @@ for FOLDER in FOLDERS:
                     exif_bytes = piexif.dump(exif_dict)
                     out_path = os.path.join(out_folder,  base_filename)
                     img.save(out_path, exif=exif_bytes)
-                    log(f"✅ Фото восстановлено: {base_filename} → restored_{base_filename}")
+                    log(f"Фото восстановлено: {base_filename} → restored_{base_filename}")
 
                 except Exception as e:
-                    log(f"❌ Ошибка при сохранении {base_filename}: {e}")
+                    log(f"Ошибка при сохранении {base_filename}: {e}")
 
             elif any(base_filename.lower().endswith(ext) for ext in SUPPORTED_VIDEO_FORMATS):
                 out_path = os.path.join(out_folder, base_filename)
